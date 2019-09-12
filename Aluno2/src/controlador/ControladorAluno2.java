@@ -10,7 +10,11 @@ import javax.swing.JOptionPane;
 import modelo.Aluno2;
 import tela.manutencao.ManutencaoAluno2;
 
+import java.util.List;
 
+import java.util.Vector;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -63,6 +67,26 @@ public class ControladorAluno2 {
     }
 
     
+         public static void atualizarTabela(JTable tabela) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        //definindo o cabeçalho da tabela
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Nome");
+        modelo.addColumn("Sobrenome");
+        modelo.addColumn("Sexo");
+        List<Aluno2> resultados = DaoAluno2.consultar();
+        for (Aluno2 objeto : resultados) {
+            Vector linha = new Vector();
+            
+            //definindo o conteúdo da tabela
+            linha.add(objeto.getCodigo());
+            linha.add(objeto.getNome());
+            linha.add(objeto.getSobrenome());
+            linha.add(objeto.getSexo());
+            modelo.addRow(linha); //adicionando a linha na tabela
+        }
+        tabela.setModel(modelo);
+    }
 
     
 

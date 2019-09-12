@@ -10,6 +10,10 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import modelo.Aluno2;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 public class DaoAluno2 {
     
      public static boolean excluir(Aluno2 objeto) {
@@ -68,4 +72,29 @@ public class DaoAluno2 {
             JOptionPane.showMessageDialog(null, "Erro!");
         }
     }
+  
+  public static List<Aluno2> consultar() {
+        List<Aluno2> resultados = new ArrayList<>();
+        //editar o SQL conforme a entidade
+        String sql = "SELECT codigo, nome, sobrenome, sexo FROM aluno2";
+        PreparedStatement ps;
+        try {
+            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Aluno2 objeto = new Aluno2();
+                //definir um set para cada atributo da entidade, cuidado com o tipo
+                objeto.setCodigo(rs.getInt("codigo"));
+                objeto.setNome(rs.getString("nome"));
+                objeto.setSobrenome(rs.getString("sobrenome"));
+                objeto.setSexo(rs.getString("sexo"));
+                
+                resultados.add(objeto);//não mexa nesse, ele adiciona o objeto na lista
+            }
+            return resultados;
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+}
 }
